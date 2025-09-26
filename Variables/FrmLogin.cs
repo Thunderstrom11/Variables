@@ -6,6 +6,7 @@ namespace Variables
 {
     public partial class FrmLogin : Form
     {
+        private int contador = 0; //contador de intentos fallidos tipo clase
         public FrmLogin()
         {
             InitializeComponent();
@@ -28,11 +29,26 @@ namespace Variables
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+
             if (login(tbUser.Text, tbPasword.Text))
             {
-                new Form1().Show();
-                
-                this.Hide();
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+
+            }
+            else
+            {
+                contador ++;
+                if (contador >= 3)
+                {
+                    MessageBox.Show("Has superado el número de intentos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show($"Usuario o contraseña incorrectos. Intento {contador} de 3.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
             }
 
         }
